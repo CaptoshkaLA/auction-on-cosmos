@@ -1,0 +1,12 @@
+syntax = "proto3";
+package auctiononcosmos.auctiononcosmos;
+
+import "gogoproto/gogo.proto";
+import "auctiononcosmos/auctiononcosmos/params.proto";
+
+option go_package = "github.com/CaptoshkaLA/AuctionOnCosmos/x/auctiononcosmos/types";
+
+// GenesisState defines the auctiononcosmos module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

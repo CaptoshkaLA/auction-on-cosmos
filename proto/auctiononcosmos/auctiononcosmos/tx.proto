@@ -1,0 +1,7 @@
+syntax = "proto3";
+package auctiononcosmos.auctiononcosmos;
+
+option go_package = "github.com/CaptoshkaLA/AuctionOnCosmos/x/auctiononcosmos/types";
+
+// Msg defines the Msg service.
+service Msg {}
