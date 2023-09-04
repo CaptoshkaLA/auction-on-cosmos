@@ -1,0 +1,15 @@
+syntax = "proto3";
+package auctiononcosmos.auctiononcosmos;
+
+option go_package = "github.com/CaptoshkaLA/AuctionOnCosmos/x/auctiononcosmos/types";
+
+message Auction {
+  
+  uint64 index = 1; 
+  string auctionOwner = 2; 
+  string itemDescription = 3; 
+  uint64 initialPrice = 4; 
+  uint64 createdAt = 5; 
+  uint64 endTime = 6; 
+  string auctionStatus = 7; 
+}
