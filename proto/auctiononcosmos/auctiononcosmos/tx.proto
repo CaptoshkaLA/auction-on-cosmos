@@ -29,7 +29,21 @@ message MsgEndAuctionResponse {
   uint64 id = 1;
 }
 
+message MsgCreateBid {
+  uint64 index = 1;
+  uint64 auction_id = 2;
+  string bidder = 3;
+  uint64 bid_amount = 4;
+  uint64 created_at = 5;
+}
+
+message MsgCreateBidResponse {
+  uint64 index = 1;
+}
+
 // Service for processing messages and transactions in the auction module
 service Msg {
   rpc CreateAuction(MsgCreateAuction) returns (MsgCreateAuctionResponse);
+  rpc EndAuction(MsgEndAuction) returns (MsgEndAuctionResponse);
+  rpc CreateBid(MsgCreateBid) returns (MsgCreateBidResponse);
 }
