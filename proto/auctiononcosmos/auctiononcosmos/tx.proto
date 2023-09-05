@@ -3,5 +3,33 @@ package auctiononcosmos.auctiononcosmos;
 
 option go_package = "github.com/CaptoshkaLA/AuctionOnCosmos/x/auctiononcosmos/types";
 
-// Msg defines the Msg service.
-service Msg {}
+// MsgCreateAuction presents a message for creating a new auction
+message MsgCreateAuction {
+  string auction_owner = 1;
+  string item_description = 2;
+  uint64 initial_price = 3;
+  uint64 created_at = 4;
+  uint64 end_time = 5;
+  string auction_status = 6;
+}
+
+// MsgCreateAuctionResponse determines the response after the auction is created
+message MsgCreateAuctionResponse {
+  uint64 auction_id = 1;
+}
+
+// MsgEndAuction presents a message to end the auction
+message MsgEndAuction {
+  uint64 auction_id = 1;
+  string auction_owner = 2;
+}
+
+// MsgEndAuctionResponse determines the response after the auction ends
+message MsgEndAuctionResponse {
+  uint64 id = 1;
+}
+
+// Service for processing messages and transactions in the auction module
+service Msg {
+  rpc CreateAuction(MsgCreateAuction) returns (MsgCreateAuctionResponse);
+}
