@@ -23,7 +23,7 @@ func (msg MsgCreateBid) Route() string { return RouterKey }
 func (msg MsgCreateBid) Type() string  { return TypeMsgCreateBid }
 
 func (msg MsgCreateBid) ValidateBasic() error {
-	if msg.Index == 0 || msg.AuctionId == 0 || msg.Bidder == "" || msg.BidAmount == 0 {
+	if msg.Index == 0 || msg.AuctionId == 0 || msg.Bidder == "" || msg.BidAmount == 0 || msg.CreatedAt == 0 {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "one or more arguments are zero or empty")
 	}
 	return nil
