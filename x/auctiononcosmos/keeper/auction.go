@@ -9,6 +9,11 @@ import (
 
 // CreateAuction creates a new auction
 func (k Keeper) CreateAuctionAuxiliary(ctx sdk.Context, auction types.Auction) uint64 {
+
+	if err := auction.Validate(); err != nil {
+		panic(err)
+	}
+
 	// Getting the current auction index
 	store := ctx.KVStore(k.storeKey)
 	var auctionIndex uint64

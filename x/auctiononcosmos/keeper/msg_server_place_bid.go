@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/CaptoshkaLA/AuctionOnCosmos/x/auctiononcosmos/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -11,25 +12,29 @@ import (
 func (k msgServer) CreateBid(goCtx context.Context, msg *types.MsgCreateBid) (*types.MsgCreateBidResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Получаем аукцион по ID и проверяем его статус
+	// Receive the auction by ID and check its status
 	auction, found := k.GetAuctionAuxiliary(ctx, msg.AuctionId)
 	if !found {
 		return nil, fmt.Errorf("auction with ID %d not found", msg.AuctionId)
 	}
 
-	if auction.AuctionStatus != "active" {
-		return nil, fmt.Errorf("auction is not active")
-	}
+	// Get the current highest bid for the auction
+	highestBid, _ := k.GetCurrentHighestBidForAuction(ctx, msg.AuctionId)
 
-	// Создаем новую ставку
+	// Creating a new bid
 	bid := k.CreateBidAuxiliary(
 		ctx,
 		msg.Index,
 		msg.AuctionId,
 		msg.Bidder,
 		msg.BidAmount,
-		msg.CreatedAt,
+		uint64(time.Now().Unix()), //msg.CreatedAt,
 	)
+
+	// Validation of a new bid
+	if err := types.ValidateBid(bid, highestBid, auction); err != nil {
+		return nil, err
+	}
 
 	return &types.MsgCreateBidResponse{
 		Index: bid.Index,

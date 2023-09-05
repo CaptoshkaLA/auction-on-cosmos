@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	//"fmt"
+	"time"
 
 	"github.com/CaptoshkaLA/AuctionOnCosmos/x/auctiononcosmos/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -16,9 +17,14 @@ func (k msgServer) CreateAuction(goCtx context.Context, msg *types.MsgCreateAuct
 		AuctionOwner:    msg.AuctionOwner,
 		ItemDescription: msg.ItemDescription,
 		InitialPrice:    msg.InitialPrice,
-		CreatedAt:       msg.CreatedAt,
+		CreatedAt:       uint64(time.Now().Unix()), //msg.CreatedAt,
 		EndTime:         msg.EndTime,
 		AuctionStatus:   msg.AuctionStatus,
+	}
+
+	// Validate the auction before creating
+	if err := auction.Validate(); err != nil {
+		panic(err)
 	}
 
 	index := k.CreateAuctionAuxiliary(ctx, auction)
